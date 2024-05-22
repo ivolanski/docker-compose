@@ -1,0 +1,11 @@
+#https://github.com/zeroone2numeral2/qbittorrent-bot
+services:
+  qbittelebot:
+    container_name: qbittorrent_bot
+    image: 0one2/qbittorrent-bot:latest
+    volumes:
+      - ./config.toml:/app/config.toml
+      - /mnt/nas:/mnt/nas:ro
+      - /mnt/sg16:/mnt/sg16:ro
+      - /mnt/wd16:/mnt/wd16:ro
+    restart: unless-stopped

@@ -1,0 +1,11 @@
+services:
+    portainer-ee:
+        ports:
+            - 8090:8000
+            - 9444:9443
+        container_name: portainer
+        restart: always
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./portainer_data:/data
+        image: portainer/portainer-ce:latest

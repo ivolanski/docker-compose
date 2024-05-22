@@ -1,0 +1,34 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage
+    container_name: gethomepage
+
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '3000:3000' # Public HTTP Port
+    environment:
+      - LOG_LEVEL=debug
+      - HOMEPAGE_VAR_PROXMOX_USERNAME=${HOMEPAGE_VAR_PROXMOX_USERNAME}
+      - HOMEPAGE_VAR_PROXMOX_PASSWORD=${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+      - HOMEPAGE_VAR_PROXMOXi5_PASSWORD=${HOMEPAGE_VAR_PROXMOXi5_PASSWORD}
+      - HOMEPAGE_VAR_PORTAINER_KEY=${HOMEPAGE_VAR_PORTAINER_KEY}
+      - HOMEPAGE_VAR_DEFAULT_PASSWORD=${HOMEPAGE_VAR_DEFAULT_PASSWORD}
+      - HOMEPAGE_VAR_IMMICH_API_KEY=${HOMEPAGE_VAR_IMMICH_API_KEY}
+    
+    env_file:
+      - .env
+
+    volumes:
+      - ./config:/app/config
+      - ./images:/app/public/images
+      - ./icons:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/nas:/mnt/nas:ro
+      - /mnt/wd16:/mnt/wd16:ro
+      - /mnt/sg16:/mnt/sg16:ro
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+
+    restart: unless-stopped

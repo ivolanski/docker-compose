@@ -1,0 +1,18 @@
+services:
+    freefilesync:
+        container_name: freefilesync
+        user: 0:0
+        ports:
+            - 8098:5800
+        volumes:
+            - ./appdata:/config:rw
+            - /mnt/wd_black_ext4:/mnt/wd_black_ext4
+            - /mnt/wd_black_exfat:/mnt/wd_black_exfat
+            - /mnt/nas:/mnt/nas:ro
+            - /root/compose:/mnt/compose
+        image: jlesage/freefilesync
+        environment:
+        - PUID=0
+        - PGID=0
+        env_file:
+            - .env
