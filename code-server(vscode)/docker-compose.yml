@@ -1,0 +1,20 @@
+#https://docs.linuxserver.io/images/docker-code-server/#usage
+#selfhosted vscode on browser
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    env_file:
+      - .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - PASSWORD=${PASSWORD} #optional
+      - SUDO_PASSWORD=${SUDO_PASSWORD} #optional
+      #- PROXY_DOMAIN=${PROXY_DOMAIN} #code-server.my.domain optional
+    volumes:
+      - ${CONFIG_PATH:-./config}:/config #/path/to/appdata/config
+    ports:
+      - ${PORT:-8080}:${PORT:-8080}
+    restart: unless-stopped
