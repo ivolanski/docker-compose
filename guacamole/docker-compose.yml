@@ -1,0 +1,13 @@
+# https://github.com/flcontainers/guacamole/README.md
+services:
+    guacamole:
+        container_name: guacamole
+        ports:
+            - ${PORT:-8080}:8080
+        volumes:
+            - ${CONFIG_PATH:-./config}:/config #</path/to/config>
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - TZ=${TZ:-UTC}
+            #- EXTENSIONS=auth-sso-openid #change it to meet your needs
+        image: flcontainers/guacamole
