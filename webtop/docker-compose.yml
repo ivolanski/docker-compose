@@ -1,22 +1,37 @@
+# Container from: https://github.com/linuxserver/docker-webtop?tab=readme-ov-file
+
 services:
   webtop:
-    image: lscr.io/linuxserver/webtop:ubuntu-mate
+    # The linux image you want to use. 
+    # change it in your .env files if you need another image
+    # complete list of images in the linuxserver github 
+    image: lscr.io/linuxserver/webtop:${LINUX_IMAGE:-ubuntu-kde}
     container_name: webtop
     security_opt:
       - seccomp:unconfined #optional
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      # timezone list at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+      # will be UTC if you don't change it in your .env file
+      - TZ=${TIME_ZONE:-Etc/UTC}
       - SUBFOLDER=/ #optional
       - TITLE=Webtop #optional
+    env_file:
+      - .env
     volumes:
-      - /mnt/nas/program_files/webtop/home/:/config
+      # map your user files and folders to a host computer location
+      # if you don't add this config to your .env file it will be
+      # in the default ./user_files folder at the same location as your docker compose file
+      - ${HOME_FILES:-./user_files}:/config 
+      # If you want to mount any other extra host folder to your docker container 
+      # change the next line to meet your needs or comment it if you don't need any extra folder
+      # the container path /mnt/nas is just an example, you can mount it to any linux path of your prefference
       - /mnt/nas/:/mnt/nas
       - /var/run/docker.sock:/var/run/docker.sock #optional
     ports:
-      - 8088:3000
-      - 8089:3001
+      - ${HTTP_PORT:-3000}:3000
+      - ${HTTPS_PORT:-3001}:3001
     devices:
       - /dev/dri:/dev/dri #optional
     shm_size: "1gb" #optional
