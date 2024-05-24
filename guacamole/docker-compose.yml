@@ -4,6 +4,7 @@ services:
         container_name: guacamole
         ports:
             - ${PORT:-8080}:8080
+        env_file: .env
         volumes:
             - ${CONFIG_PATH:-./config}:/config #</path/to/config>
             - /etc/localtime:/etc/localtime:ro

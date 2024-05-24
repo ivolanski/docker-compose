@@ -1,0 +1,23 @@
+#https://docs.linuxserver.io/images/docker-speedtest-tracker/#docker-mods
+
+services:
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    container_name: speedtest-tracker
+    env_file: .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ:-Etc/UTC}
+      - DB_CONNECTION=sqlite
+      # - APP_KEY= #optional
+      # - DB_HOST= #optional
+      # - DB_PORT= #optional
+      # - DB_DATABASE= #optional
+      # - DB_USERNAME= #optional
+      # - DB_PASSWORD= #optional
+    volumes:
+      - ${DATA_PATH:-./config}:/config #/path/to/data
+    ports:
+      - ${PORT:-80}:80
+    restart: unless-stopped
