@@ -3,6 +3,7 @@ services:
 
   outline:
     image: docker.getoutline.com/outlinewiki/outline:latest
+    restart: unless-stopped
     env_file: .env
     user: root
     ports:
@@ -15,6 +16,7 @@ services:
 
   redis:
     image: redis
+    restart: unless-stopped
     env_file: .env
     ports:
       - "6379:6379"
