@@ -12,7 +12,7 @@ services:
       retries: 5
       timeout: 5s
     volumes:
-      - ./postgree-database:/var/lib/postgresql/data
+      - ./volumes/postgree-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS:?database password required}
       POSTGRES_USER: ${PG_USER:-authentik}
@@ -30,7 +30,7 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - redis:/data
+      - ./volumes/redis-data:/data
   server:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.2.3}
     restart: unless-stopped
@@ -42,8 +42,8 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ./media:/media
-      - ./custom-templates:/templates
+      - ./volumes/media:/media
+      - ./volumes/custom-templates:/templates
     env_file:
       - .env
     ports:
@@ -72,9 +72,9 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./media:/media
-      - ./certs:/certs
-      - ./custom-templates:/templates
+      - ./volumes/media:/media
+      - ./volumes/certs:/certs
+      - ./volumes/custom-templates:/templates
     env_file:
       - .env
     depends_on:

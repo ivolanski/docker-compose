@@ -9,7 +9,8 @@ services:
     ports:
       - "8093:3000"
     volumes:
-      - ./outline:/var/lib/outline
+      - ./volumes/outline-data:/var/lib/outline/data
+      - ./volumes/outline:/var/lib/outline
     depends_on:
       #- postgres
       - redis
@@ -21,7 +22,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./redis:/redis.conf
+      - ./volumes/redis-conf:/redis.conf
+      - ./volumes/redis-data:/data
     command: ["redis-server", "/redis.conf"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]

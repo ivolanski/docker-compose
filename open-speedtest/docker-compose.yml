@@ -6,3 +6,5 @@ services:
         ports:
             - '8095:3000'
         image: openspeedtest/latest
+        volumes:
+            - ./volumes/letsencrypt-data:/var/log/letsencrypt

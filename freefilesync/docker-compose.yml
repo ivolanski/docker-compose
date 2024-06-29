@@ -5,11 +5,12 @@ services:
         ports:
             - 8098:5800
         volumes:
-            - ./appdata:/config:rw
+            - ./volumes/appdata:/config:rw
+            - ./volumes/storage:/storage:rw
             - /mnt/wd_black_ext4:/mnt/wd_black_ext4
             - /mnt/wd_black_exfat:/mnt/wd_black_exfat
             - /mnt/nas:/mnt/nas:ro
-            - /root/compose:/mnt/compose
+            - /root/compose:/mnt/compose:ro
         image: jlesage/freefilesync
         environment:
         - PUID=0
