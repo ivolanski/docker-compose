@@ -3,7 +3,7 @@ version: "3.4"
 
 services:
   postgresql:
-    image: docker.io/library/postgres:12-alpine
+    image: docker.io/library/postgres:16-alpine
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
@@ -12,7 +12,7 @@ services:
       retries: 5
       timeout: 5s
     volumes:
-      - database:/var/lib/postgresql/data
+      - ./postgree-database:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS:?database password required}
       POSTGRES_USER: ${PG_USER:-authentik}
@@ -86,3 +86,4 @@ volumes:
     driver: local
   redis:
     driver: local
+
